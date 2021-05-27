@@ -201,38 +201,41 @@ export class Index extends Vue {
    }
 
    private async getsf() {
-     const resf = await getLists()
-     console.log(resf)
+    this.getList()
    }
 
-   private getList() {
+   private async getList() {
      this.loading = true
-     const data = qs.stringify({
-       limit: '1000'
-     })
-     const config:AxiosRequestConfig = {
-       method: 'get',
-       url:
-        'https://9lnkjrds.lc-cn-n1-shared.com/1.1/scan/classes/Post?limit=1000',
-       headers: {
-         'X-LC-Id': '9lNkjrdSQ2hfbG1MAHEfK7iM-gzGzoHsz',
-         'X-LC-Key': 'P2BzXqOOKtFQXUleOfXKlgLI,master',
-         'Content-Type': 'application/x-www-form-urlencoded'
-       },
-       data: data
-     }
-     const re = axios(config)
-     re.then(res => {
-       if (res.status === 200) {
-         this.loading = false
-         this.tableData = []
-         for (let i = 0; i < res.data.results.length; i++) {
-           const content = JSON.parse(res.data.results[i].content)
-           content.objectId = res.data.results[i].objectId
-           this.tableData.unshift(content)
-         }
-       }
-     })
+     const {data} = await getLists()
+     this.loading = false
+     this.tableData = data;
+     console.log(this.tableData)
+    //  const data = qs.stringify({
+    //    limit: '1000'
+    //  })
+    //  const config:AxiosRequestConfig = {
+    //    method: 'get',
+    //    url:
+    //     'https://9lnkjrds.lc-cn-n1-shared.com/1.1/scan/classes/Post?limit=1000',
+    //    headers: {
+    //      'X-LC-Id': '9lNkjrdSQ2hfbG1MAHEfK7iM-gzGzoHsz',
+    //      'X-LC-Key': 'P2BzXqOOKtFQXUleOfXKlgLI,master',
+    //      'Content-Type': 'application/x-www-form-urlencoded'
+    //    },
+    //    data: data
+    //  }
+    //  const re = axios(config)
+    //  re.then(res => {
+    //    if (res.status === 200) {
+    //      this.loading = false
+    //      this.tableData = []
+    //      for (let i = 0; i < res.data.results.length; i++) {
+    //        const content = JSON.parse(res.data.results[i].content)
+    //        content.objectId = res.data.results[i].objectId
+    //        this.tableData.unshift(content)
+    //      }
+    //    }
+    //  })
    }
 
    private onDel(id: string) {
